@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Advertisment } from "@src/interfaces/types";
+import Card from "react-bootstrap/Card";
+import listingStyles from "./allListings.module.scss";
 
 export default function AllListings() {
   const [listings, setListings] = useState<Advertisment[]>([]);
@@ -24,16 +26,20 @@ export default function AllListings() {
   }, []);
 
   return (
-    <div>
-      <ul>
-        {listings.map((listing) => (
-          <li key={listing.id}>
-            <h3>{listing.name}</h3>
-            <p>Описание: {listing.description}</p>
-            <p>Цена: {listing.price}</p>
-          </li>
-        ))}
-      </ul>
+    <div className={listingStyles.listings_container}>
+      {listings.map((listing) => (
+        <div key={listing.id}>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={listing.imageUrl} />
+            <Card.Body>
+              <Card.Title>{listing.name}</Card.Title>
+              <h4>Цена: {listing.price}</h4>
+              <h4>Описание: </h4>
+              <Card.Text>{listing.description}</Card.Text>
+            </Card.Body>
+          </Card>
+        </div>
+      ))}
       <div>pagination</div>
     </div>
   );
