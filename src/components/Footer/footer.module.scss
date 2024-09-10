@@ -1,0 +1,52 @@
+@import "../../ui/variables.scss";
+
+.wrapper {
+  display: flex;
+  height: 90px;
+  background-color: $accent-color;
+  padding: 2rem;
+  @media (max-width: $phone-width) {
+    padding: 1rem;
+  }
+}
+
+.wrapper-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1180px;
+  position: static;
+  bottom: 0;
+}
+
+.footer {
+  font-family: "Roboto", sans-serif;
+  font-size: 30px;
+  color: $primary-color;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: $primary-color;
+}
+
+.nav_list {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav_item {
+  color: $primary-color;
+  text-decoration: none;
+}

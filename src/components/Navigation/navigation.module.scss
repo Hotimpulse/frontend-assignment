@@ -1,0 +1,70 @@
+@import "../../ui/variables.scss";
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $primary-color;
+}
+
+.nav_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  list-style: none;
+
+  @media (max-width: $phone-width) {
+    display: none;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 5rem;
+  }
+
+  @media (min-width: $phone-width) and (max-width: $tablet-width) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 2rem 0;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: $tablet-width) {
+    display: flex;
+    place-items: center;
+    gap: 40px;
+  }
+}
+
+.nav_list_mobile {
+  @media (max-width: $phone-width) {
+    display: flex;
+    place-items: center;
+    gap: 40px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    list-style: none;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 5rem;
+    font-size: 1.5rem;
+    :link {
+      text-decoration: none;
+      color: $accent-color;
+    }
+  }
+
+  @media (min-width: $phone-width) {
+    display: none;
+  }
+}
+
+.nav_item {
+  color: $primary-color;
+  text-decoration: none;
+}
