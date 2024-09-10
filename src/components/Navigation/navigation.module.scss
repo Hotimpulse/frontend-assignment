@@ -27,9 +27,9 @@
 
   @media (min-width: $phone-width) and (max-width: $tablet-width) {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
     margin-top: 2rem 0;
-    flex-direction: column;
     gap: 1rem;
   }
 

@@ -2,7 +2,8 @@
 
 .wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  margin: 0 auto;
   height: 90px;
   background-color: $bg-color;
   width: 100%;
@@ -21,15 +22,18 @@
   }
 
   @media (min-width: $phone-width) and (max-width: $tablet-width) {
-    width: 100%;
+    margin: 0;
     padding: 0 1rem;
   }
 
   @media (width < 1200px) {
-    padding: 0 1rem;
+    margin: 0;
+    padding: 0;
   }
 
   @media (min-width: $tablet-width) {
+    margin: 0;
+    padding: 0 1rem;
     width: 1180px;
   }
 }
