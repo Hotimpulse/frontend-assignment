@@ -5,7 +5,6 @@ import listingStyles from "./allListings.module.scss";
 
 export default function AllListings() {
   const [listings, setListings] = useState<Advertisment[]>([]);
-  console.log("🚀 ~ AllListings ~ listings:", listings);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -28,7 +27,7 @@ export default function AllListings() {
   return (
     <div className={listingStyles.listings_container}>
       {listings.map((listing) => (
-        <div key={listing.id}>
+        <div className={listingStyles.listings} key={listing.id}>
           <Card style={{ width: "18rem" }}>
             <Card.Img variant="top" src={listing.imageUrl} />
             <Card.Body>

@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+/* Color Variables */
+$primary-color: #fff;
+$bg-color: #484283;
+$accent-color: #444b58;
+$button-color: #f14f4f;
+$button-hover-color: #8c2828;
+$button-disabled-color: #f8afaf;
+$bg-fade: rgba(0, 0, 0, 0.04);
+$border-grey: #c4c4c4;
+$count-grey: #b2b5bb;
+$search-input: #f6f6f6;
+
+/* Media Queries */
+$phone-width: 420px;
+$tablet-width: 650px;
+$desktop-width: 1024px;
+
+@media (max-width: $phone-width) {
+  /* Styles for phones */
+}
+
+@media (min-width: $phone-width) and (max-width: $tablet-width) {
+  /* Styles for tablets */
+}
+
+@media (min-width: $tablet-width) {
+  /* Styles for desktops */
+}
