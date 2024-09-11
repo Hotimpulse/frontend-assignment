@@ -1,32 +1,51 @@
-import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import listingStyles from "./allListings.module.scss";
 import { IAdvertisment } from "@src/interfaces/IAdvertisment";
-import { Button } from "react-bootstrap";
+import { Button, Pagination } from "react-bootstrap";
+import { AppDispatch, RootState } from "@src/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import {
+  setAds,
+  setCurrentPage,
+} from "@src/store/AllListings/allListingsSlice";
 
 export default function AllListings() {
-  const [listings, setListings] = useState<IAdvertisment[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ads, setAds] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const { listings, currentPage, totalPages } = useSelector(
+    (state: RootState) => state.ads
+  );
 
-  useEffect(() => {
-    const fetchListings = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/advertisements");
-        if (!response.ok) {
-          throw new Error("No listings available!");
-        }
-        const data: IAdvertisment[] = await response.json();
-        setListings(data);
-        return data;
-      } catch (error) {
-        console.error(error);
+  const fetchAds = async (page: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/advertisements?_page=${page}&_limit=10`
+      );
+      if (!response.ok) {
+        throw new Error("No listings available!");
       }
-    };
+      const data: IAdvertisment[] = await response.json();
+      dispatch(setAds(data));
+      return data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 
-    fetchListings();
-  }, []);
+  const { isError, isLoading, isFetching, refetch } = useQuery<
+    IAdvertisment[],
+    Error
+  >({
+    queryKey: ["ads", currentPage],
+    queryFn: () => fetchAds(currentPage),
+    retry: 1,
+  });
+
+  const handlePageChange = (page: number) => {
+    dispatch(setCurrentPage(page));
+    refetch();
+  };
 
   return (
     <div className={listingStyles.listings_wrapper}>
@@ -52,7 +71,19 @@ export default function AllListings() {
           </div>
         ))}
       </div>
-      <div>pagination</div>
+      <div>
+        <Pagination>
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item
+              key={index}
+              active={index + 1 === currentPage}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+        </Pagination>
+      </div>
     </div>
   );
 }
