@@ -10,6 +10,27 @@
   height: fit-content;
 }
 
+.listings_search_add_bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: fit-content;
+
+  @media ((min-width: $phone-width) and (max-width: $tablet-width)) {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+}
+
+.recommendations_top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  &_select {
+    width: fit-content;
+  }
+}
+
 .listing_container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -58,11 +79,6 @@
 
     border-radius: 0.2rem;
   }
-}
-
-.listing_desc {
-  display: flex;
-  flex-direction: column;
 }
 
 .pagination {

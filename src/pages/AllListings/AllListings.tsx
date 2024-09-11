@@ -1,8 +1,8 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import listingStyles from "./allListings.module.scss";
 import { IAdvertisment } from "@src/interfaces/IAdvertisment";
-import { Button, Form, FormSelect, Modal, Pagination } from "react-bootstrap";
+import { Button, FormSelect, Pagination } from "react-bootstrap";
 import { AppDispatch, RootState } from "@src/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import SearchPanel from "@src/components/SearchPanel/SearchPanel";
+import AdModal from "@src/components/AdModal/AdModal";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,24 +24,9 @@ export default function AllListings() {
   const [limit, setLimit] = useState<number>(10);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const [adData, setAdData] = useState({
-    adName: "",
-    adPrice: 0,
-    adDescription: "",
-    adImageUrl: "",
-  });
-
   const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLimit(Number(e.target.value));
     queryClient.invalidateQueries({ queryKey: ["ads"] });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setAdData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
   };
 
   const fetchAds = async (page: number, limit: number) => {
@@ -82,103 +68,25 @@ export default function AllListings() {
     listing.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-
-  const handleCreateAd = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newAd: IAdvertisment = {
-      id: `${Date.now()}`,
-      name: adData.adName,
-      price: adData.adPrice,
-      createdAt: `${Date.now()}`,
-      description: adData.adDescription,
-      views: 200,
-      likes: 300,
-      imageUrl: adData.adImageUrl,
-    };
-    fetch("http://localhost:8000/advertisements", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(newAd),
-    }).then(() => {
-      refetch();
-      handleClose();
-      setAdData({
-        adName: "",
-        adPrice: 0,
-        adDescription: "",
-        adImageUrl: "",
-      });
-    });
-  };
-
   return (
     <div className={listingStyles.listings_wrapper}>
-      <div className="aside">
+      <div className={listingStyles.listings_search_add_bar}>
+        <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
-        <div>
-          <Button onClick={handleShow}>Разместить объявление</Button>
-
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Создать новое объявление</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form onSubmit={(e) => handleCreateAd(e)}>
-                <Form.Group controlId="adImageUrl">
-                  <Form.Label>Фото</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Введите URL фото"
-                    value={adData.adImageUrl}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="adName">
-                  <Form.Label>Название</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Введите название"
-                    value={adData.adName}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="adDescription">
-                  <Form.Label>Описание</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Введите описание"
-                    value={adData.adDescription}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="adPrice">
-                  <Form.Label>Стоимость</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="Введите цену"
-                    value={adData.adPrice}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-                <Button type="submit">Создать</Button>
-              </Form>
-            </Modal.Body>
-          </Modal>
-
-          <FormSelect onChange={handleLimitChange} value={limit}>
+      </div>
+      <div className={listingStyles.recommendations}>
+        <div className={listingStyles.recommendations_top}>
+          <h2>Рекомендации для вас</h2>
+          <FormSelect
+            onChange={handleLimitChange}
+            value={limit}
+            className={listingStyles.recommendations_top_select}
+          >
             <option value={5}>5</option>
             <option value={10}>10</option>
             <option value={15}>15</option>
           </FormSelect>
         </div>
-      </div>
-      <div>
-        <h2>Рекомендации для вас</h2>
         <div className={listingStyles.listing_container}>
           {filteredListings.length > 0 ? (
             filteredListings.map((listing) => (
