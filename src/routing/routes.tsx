@@ -8,6 +8,7 @@ const LazyListing = lazy(() => import("@src/pages/Listing/Listing"));
 const LazyAllListings = lazy(
   () => import("@src/pages/AllListings/AllListings")
 );
+const LazyOrders = lazy(() => import("@src/pages/Orders/Orders"));
 
 export const customRoutes: JSX.Element[] = [
   <Route
@@ -34,6 +35,15 @@ export const customRoutes: JSX.Element[] = [
     element={
       <Suspense fallback={<Spinner />}>
         <LazyAllListings />
+      </Suspense>
+    }
+  />,
+  <Route
+    key={"3"}
+    path="/orders"
+    element={
+      <Suspense fallback={<Spinner />}>
+        <LazyOrders />
       </Suspense>
     }
   />,

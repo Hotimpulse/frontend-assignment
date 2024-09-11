@@ -12,7 +12,7 @@ export default function Footer() {
           <ul className={footer.nav_list}>
             <li>
               <NavLink to="/listings" className={footer.nav_item}>
-                Listings
+                Объявления
               </NavLink>
             </li>
           </ul>

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Advertisment } from "@src/interfaces/types";
 import Card from "react-bootstrap/Card";
 import listingStyles from "./allListings.module.scss";
+import { IAdvertisment } from "@src/interfaces/IAdvertisment";
 
 export default function AllListings() {
-  const [listings, setListings] = useState<Advertisment[]>([]);
+  const [listings, setListings] = useState<IAdvertisment[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ads, setAds] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -13,7 +16,7 @@ export default function AllListings() {
         if (!response.ok) {
           throw new Error("No listings available!");
         }
-        const data: Advertisment[] = await response.json();
+        const data: IAdvertisment[] = await response.json();
         setListings(data);
         return data;
       } catch (error) {
