@@ -35,7 +35,10 @@ export default function AllListings() {
     }
   };
 
-  const { isError, isLoading, isFetching, refetch } = useQuery<IAdvertisment[], Error>({
+  const { isError, isLoading, isFetching, refetch } = useQuery<
+    IAdvertisment[],
+    Error
+  >({
     queryKey: ["ads", currentPage],
     queryFn: () => fetchAds(currentPage),
     retry: 1,
@@ -53,6 +56,7 @@ export default function AllListings() {
 
   return (
     <div className={listingStyles.listings_wrapper}>
+      <h2>Рекомендации для вас</h2>
       <div className={listingStyles.listing_container}>
         {listings.map((listing) => (
           <div className={listingStyles.listings} key={listing.id}>
@@ -67,12 +71,10 @@ export default function AllListings() {
               />
               <Card.Body className={listingStyles.listing_body}>
                 <Card.Title>{listing.name}</Card.Title>
-                <h5>Цена: {listing.price}</h5>
-                <h5>Описание: </h5>
                 <Card.Text className={listingStyles.listing_desc}>
-                  {listing.description !== undefined
-                    ? listing.description
-                    : "Без описания"}
+                  <p>Стоимость: {listing.price} руб.</p>
+                  <p>Количество просмотров: {listing.views}</p>
+                  <p>Количество лайков: {listing.likes}</p>
                 </Card.Text>
               </Card.Body>
               <Button>Open</Button>
