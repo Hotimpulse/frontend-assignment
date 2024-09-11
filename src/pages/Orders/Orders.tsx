@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Order } from "@src/interfaces/types";
 import Card from "react-bootstrap/Card";
 import orderStyles from "./orders.module.scss";
+import { IOrder, OrderItem } from "@src/interfaces/IOrder";
 
 export default function Orders() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -15,7 +15,7 @@ export default function Orders() {
         if (!response.ok) {
           throw new Error("No orders available!");
         }
-        const data: Order[] = await response.json();
+        const data: IOrder[] = await response.json();
         setOrders(data);
         return data;
       } catch (error) {
@@ -27,19 +27,33 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className={orderStyles.listings_wrapper}>
-      <div className={orderStyles.listing_container}>
+    <div className={orderStyles.orders_wrapper}>
+      <div className={orderStyles.order_container}>
         {orders.map((order) => (
-          <div className={orderStyles.listings} key={order.id}>
-            <Card className={orderStyles.listing}>
-              <Card.Img className={orderStyles.listing_img} variant="top" />
-              <Card.Body className={orderStyles.listing_body}>
-                <Card.Title>{order.createdAt}</Card.Title>
-                <h4>Цена: {order.deliveryWay}</h4>
-                <h4>Описание: </h4>
-                <Card.Text className={orderStyles.listing_desc}>
-                  {order.items.map((item) => (
-                    <p>{item.name}</p>
+          <div className={orderStyles.orders} key={order.id}>
+            <Card className={orderStyles.order_card_wrapper}>
+              <Card.Body className={orderStyles.order_card_body}>
+                <Card.Text className={orderStyles.order_card_desc}>
+                  {order.items.map((item: OrderItem) => (
+                    <div className={orderStyles.card_content}>
+                      <picture>
+                        <source srcSet={item.imageUrl} type="image/png" />
+                        <img
+                          className={orderStyles.img}
+                          src={item.imageUrl}
+                          alt={`picture of ${item.name}`}
+                          loading="lazy"
+                        />
+                      </picture>
+                      <div className={orderStyles.card_text}>
+                        <p>
+                          {item.name}: {item.count} шт.
+                        </p>
+                        <p>Цена: {item.price} руб.</p>
+                        <p>Просмотры: {item.views}</p>
+                        <p>Лайки: {item.likes}</p>
+                      </div>
+                    </div>
                   ))}
                 </Card.Text>
               </Card.Body>
@@ -47,7 +61,6 @@ export default function Orders() {
           </div>
         ))}
       </div>
-      <div>pagination</div>
     </div>
   );
 }

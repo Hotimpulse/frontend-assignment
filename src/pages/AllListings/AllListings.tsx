@@ -9,6 +9,8 @@ import {
   setAds,
   setCurrentPage,
 } from "@src/store/AllListings/allListingsSlice";
+import toast from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,14 +35,16 @@ export default function AllListings() {
     }
   };
 
-  const { isError, isLoading, isFetching, refetch } = useQuery<
-    IAdvertisment[],
-    Error
-  >({
+  const { isError, isLoading, isFetching, refetch } = useQuery<IAdvertisment[], Error>({
     queryKey: ["ads", currentPage],
     queryFn: () => fetchAds(currentPage),
     retry: 1,
   });
+
+  if (isError) {
+    toast.error("There has been an error fetching files!");
+    throw new Error("There has been an error fetching files!");
+  }
 
   const handlePageChange = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -52,6 +56,9 @@ export default function AllListings() {
       <div className={listingStyles.listing_container}>
         {listings.map((listing) => (
           <div className={listingStyles.listings} key={listing.id}>
+            {(isLoading || isFetching) && (
+              <Skeleton count={3} width={600} height={450} />
+            )}
             <Card className={listingStyles.listing}>
               <Card.Img
                 className={listingStyles.listing_img}
@@ -60,10 +67,12 @@ export default function AllListings() {
               />
               <Card.Body className={listingStyles.listing_body}>
                 <Card.Title>{listing.name}</Card.Title>
-                <h4>Цена: {listing.price}</h4>
-                <h4>Описание: </h4>
+                <h5>Цена: {listing.price}</h5>
+                <h5>Описание: </h5>
                 <Card.Text className={listingStyles.listing_desc}>
-                  {listing.description !== "" ? listing.description : "No desc"}
+                  {listing.description !== undefined
+                    ? listing.description
+                    : "Без описания"}
                 </Card.Text>
               </Card.Body>
               <Button>Open</Button>
@@ -71,7 +80,7 @@ export default function AllListings() {
           </div>
         ))}
       </div>
-      <div>
+      <div className={listingStyles.pagination}>
         <Pagination>
           {[...Array(totalPages)].map((_, index) => (
             <Pagination.Item

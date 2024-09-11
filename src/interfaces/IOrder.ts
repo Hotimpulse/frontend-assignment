@@ -1,5 +1,5 @@
 import { IAdvertisment } from "./IAdvertisment";
-type OrderItem = IAdvertisment & { count: number };
+export type OrderItem = IAdvertisment & { count: number };
 
 export interface IOrder {
   id: string;

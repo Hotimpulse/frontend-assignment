@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  padding: 1rem;
+  margin-top: 5rem;
   height: fit-content;
 }
 
@@ -35,9 +35,9 @@
 .listing {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: left;
   max-width: 300px;
+  height: 550px;
   padding: 1rem;
   @media (max-width: $tablet-width) {
     max-width: 300px;
@@ -52,7 +52,10 @@
   }
 
   & img {
-    width: 250px;
+    margin: 0 auto;
+    max-width: fit-content;
+    max-height: 300px;
+
     border-radius: 0.2rem;
   }
 }
@@ -63,4 +66,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pagination {
+  margin-top: 1rem;
+  cursor: pointer;
 }
