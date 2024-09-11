@@ -13,7 +13,6 @@
 .listing_container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 0 1rem;
 
   max-width: 1180px;
   gap: 1rem;
@@ -34,8 +33,12 @@
 }
 
 .listing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 300px;
-  height: 300px;
+  padding: 1rem;
   @media (max-width: $tablet-width) {
     max-width: 300px;
   }
@@ -47,11 +50,16 @@
   @media ((min-width: $desktop-width) and (max-width: 1180px)) {
     max-width: 250px;
   }
+
+  & img {
+    width: 250px;
+    border-radius: 0.2rem;
+  }
 }
 
 .listing_desc {
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
