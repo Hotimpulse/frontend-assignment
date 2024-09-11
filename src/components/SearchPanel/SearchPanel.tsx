@@ -7,7 +7,7 @@ export default function SearchPanel() {
   return (
     <Form>
       <Row>
-        <Col xs="auto">
+        <Col xl="auto">
           <Form.Control type="text" placeholder="Search" className="mr-sm-2" />
         </Col>
         <Col xs="auto">

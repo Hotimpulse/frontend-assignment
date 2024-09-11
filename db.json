@@ -11,6 +11,46 @@
       "imageUrl": "./src/assets/pics/hookup.webp"
     },
     {
+      "id": "11",
+      "name": "Стул старинный",
+      "description": "Очень красивый",
+      "price": 2000,
+      "createdAt": "2022-08-12T20:16:55.351Z",
+      "views": 20,
+      "likes": 2,
+      "imageUrl": "./src/assets/pics/hookup.webp"
+    },
+    {
+      "id": "12",
+      "name": "Стул старинный",
+      "description": "Очень красивый",
+      "price": 2000,
+      "createdAt": "2022-08-12T20:16:55.351Z",
+      "views": 20,
+      "likes": 2,
+      "imageUrl": "./src/assets/pics/hookup.webp"
+    },
+    {
+      "id": "13",
+      "name": "Стул старинный",
+      "description": "Очень красивый",
+      "price": 2000,
+      "createdAt": "2022-08-12T20:16:55.351Z",
+      "views": 20,
+      "likes": 2,
+      "imageUrl": "./src/assets/pics/hookup.webp"
+    },
+    {
+      "id": "42",
+      "name": "Стул старинный",
+      "description": "Очень красивый",
+      "price": 2000,
+      "createdAt": "2022-08-12T20:16:55.351Z",
+      "views": 20,
+      "likes": 2,
+      "imageUrl": "./src/assets/pics/hookup.webp"
+    },
+    {
       "id": "2",
       "name": "Ведро снега",
       "description": "Последняя возможность купить по выгодной цене!",
