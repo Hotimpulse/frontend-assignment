@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className={footer.wrapper}>
       <div className={footer["wrapper-menu"]}>
         <NavLink to="/#" className={footer.footer}>
-          Profile
+          Home
         </NavLink>
         <nav className={footer.navigation}>
           <ul className={footer.nav_list}>

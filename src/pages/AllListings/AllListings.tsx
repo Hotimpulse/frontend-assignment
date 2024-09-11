@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import SearchPanel from "@src/components/SearchPanel/SearchPanel";
 import AdModal from "@src/components/AdModal/AdModal";
+import { useNavigate } from "react-router-dom";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,6 +24,7 @@ export default function AllListings() {
   );
   const [limit, setLimit] = useState<number>(10);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLimit(Number(e.target.value));
@@ -68,8 +70,15 @@ export default function AllListings() {
     listing.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  function handleOpenAd(id: string): void {
+    navigate(`/listing/${id}`);
+  }
+
   return (
     <div className={listingStyles.listings_wrapper}>
+      {(isLoading || isFetching) && (
+        <Skeleton count={3} width={600} height={450} />
+      )}
       <div className={listingStyles.listings_search_add_bar}>
         <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
@@ -91,9 +100,6 @@ export default function AllListings() {
           {filteredListings.length > 0 ? (
             filteredListings.map((listing) => (
               <div className={listingStyles.listings} key={listing.id}>
-                {(isLoading || isFetching) && (
-                  <Skeleton count={3} width={600} height={450} />
-                )}
                 <Card className={listingStyles.listing}>
                   <Card.Img
                     className={listingStyles.listing_img}
@@ -103,12 +109,18 @@ export default function AllListings() {
                   <Card.Body className={listingStyles.listing_body}>
                     <Card.Title>{listing.name}</Card.Title>
                     <Card.Text className={listingStyles.listing_desc}>
-                      <p>Стоимость: {listing.price} руб.</p>
-                      <p>Количество просмотров: {listing.views}</p>
-                      <p>Количество лайков: {listing.likes}</p>
+                      Стоимость: {listing.price} руб.
+                    </Card.Text>
+                    <Card.Text className={listingStyles.listing_desc}>
+                      Количество просмотров: {listing.views}
+                    </Card.Text>
+                    <Card.Text className={listingStyles.listing_desc}>
+                      Количество лайков: {listing.likes}
                     </Card.Text>
                   </Card.Body>
-                  <Button>Open</Button>
+                  <Button onClick={() => handleOpenAd(listing.id)}>
+                    Посмотреть
+                  </Button>
                 </Card>
               </div>
             ))

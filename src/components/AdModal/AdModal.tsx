@@ -61,7 +61,10 @@ export default function AdModal({ refetch }: IAdModal) {
           <Modal.Title>Создать новое объявление</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={(e) => handleCreateAd(e)}>
+          <Form
+            onSubmit={(e) => handleCreateAd(e)}
+            className={adModalStyles.modal_body}
+          >
             <Form.Group controlId="adImageUrl">
               <Form.Label>Фото</Form.Label>
               <Form.Control
@@ -98,7 +101,9 @@ export default function AdModal({ refetch }: IAdModal) {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Button type="submit">Создать</Button>
+            <Button type="submit" disabled={adData.adPrice < 0} className={adModalStyles.modal_btn}>
+              Создать
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>

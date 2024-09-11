@@ -35,7 +35,7 @@ export default function Orders() {
               <Card.Body className={orderStyles.order_card_body}>
                 <Card.Text className={orderStyles.order_card_desc}>
                   {order.items.map((item: OrderItem) => (
-                    <div className={orderStyles.card_content}>
+                    <div className={orderStyles.card_content} key={item.id}>
                       <picture>
                         <source srcSet={item.imageUrl} type="image/png" />
                         <img
@@ -49,7 +49,8 @@ export default function Orders() {
                         <p>
                           {item.name}: {item.count} шт.
                         </p>
-                        <p>Цена: {item.price} руб.</p>
+                        <p>Дата создания заказа: {item.createdAt}</p>
+                        <p>Стоимость: {item.price} руб.</p>
                         <p>Просмотры: {item.views}</p>
                         <p>Лайки: {item.likes}</p>
                       </div>

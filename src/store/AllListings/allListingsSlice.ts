@@ -33,10 +33,16 @@ const adSlice = createSlice({
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
+    setStatus(
+      state,
+      action: PayloadAction<"idle" | "loading" | "succeeded" | "failed">
+    ) {
+      state.status = action.payload;
+    },
   },
 });
 
-export const { setAds, setCurrentPage, setTotalPages, setError } =
+export const { setAds, setCurrentPage, setTotalPages, setError, setStatus } =
   adSlice.actions;
 
 export default adSlice.reducer;

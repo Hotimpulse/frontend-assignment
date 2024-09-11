@@ -12,9 +12,9 @@
     },
     {
       "id": "11",
-      "name": "Стул старинный",
-      "description": "Очень красивый",
-      "price": 2000,
+      "name": "Reeeee XD",
+      "description": "raccoon!",
+      "price": "36",
       "createdAt": "2022-08-12T20:16:55.351Z",
       "views": 20,
       "likes": 2,
@@ -133,6 +133,16 @@
       "price": "1234",
       "createdAt": "1726079890517",
       "description": "sdfsdf",
+      "views": 200,
+      "likes": 300,
+      "imageUrl": "./src/assets/pics/hookup.webp"
+    },
+    {
+      "id": "1726089484107",
+      "name": "Nike hat",
+      "price": "199.99",
+      "createdAt": "1726089484107",
+      "description": "Dope Nike hat",
       "views": 200,
       "likes": 300,
       "imageUrl": "./src/assets/pics/hookup.webp"
