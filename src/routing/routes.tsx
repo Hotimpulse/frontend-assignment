@@ -3,7 +3,6 @@ import { Route } from "react-router";
 import { Suspense, lazy } from "react";
 import Spinner from "@src/ui/Spinner/Spinner";
 
-const LazyHome = lazy(() => import("@src/pages/Home/Home"));
 const LazyListing = lazy(() => import("@src/pages/Listing/Listing"));
 const LazyAllListings = lazy(
   () => import("@src/pages/AllListings/AllListings")
@@ -16,7 +15,7 @@ export const customRoutes: JSX.Element[] = [
     path="/"
     element={
       <Suspense fallback={<Spinner />}>
-        <LazyHome />
+        <LazyAllListings />
       </Suspense>
     }
   />,
@@ -26,15 +25,6 @@ export const customRoutes: JSX.Element[] = [
     element={
       <Suspense fallback={<Spinner />}>
         <LazyListing />
-      </Suspense>
-    }
-  />,
-  <Route
-    key={"2"}
-    path="/listings"
-    element={
-      <Suspense fallback={<Spinner />}>
-        <LazyAllListings />
       </Suspense>
     }
   />,

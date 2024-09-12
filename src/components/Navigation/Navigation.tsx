@@ -7,7 +7,7 @@ export default function Navigation({ mobile }: INavigation) {
     <nav className={nav.navigation}>
       <ul className={mobile === "mobile" ? nav.nav_list_mobile : nav.nav_list}>
         <li>
-          <Link to="/listings" className={nav.nav_item}>
+          <Link to="/" className={nav.nav_item}>
             Объявления
           </Link>
         </li>
