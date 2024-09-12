@@ -82,6 +82,24 @@
   }
 }
 
+.no_listings {
+  display: flex;
+  gap: 1rem;
+  max-width: 1100px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  button {
+    margin: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
 .pagination {
   margin-top: 1rem;
   cursor: pointer;

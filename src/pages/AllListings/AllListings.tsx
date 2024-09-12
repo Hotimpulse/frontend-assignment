@@ -80,18 +80,20 @@ export default function AllListings() {
         <SearchPanel setSearchQuery={setSearchQuery} />
       </div>
       <div className={listingStyles.recommendations}>
-        <div className={listingStyles.recommendations_top}>
-          <h2>Рекомендации для вас</h2>
-          <FormSelect
-            onChange={handleLimitChange}
-            value={limit}
-            className={listingStyles.recommendations_top_select}
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={15}>15</option>
-          </FormSelect>
-        </div>
+        {filteredListings.length > 0 && (
+          <div className={listingStyles.recommendations_top}>
+            <h2>Рекомендации для вас</h2>
+            <FormSelect
+              onChange={handleLimitChange}
+              value={limit}
+              className={listingStyles.recommendations_top_select}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+            </FormSelect>
+          </div>
+        )}
         <div className={listingStyles.listing_container}>
           {filteredListings.length > 0 ? (
             filteredListings.map((listing) => (
@@ -121,12 +123,17 @@ export default function AllListings() {
               </div>
             ))
           ) : (
-            <p>Объявление не найдено</p>
+            <>
+              <div className={listingStyles.no_listings}>
+                <p>Таких объявлений нет 😒</p>
+                <Button onClick={() => navigate("/")}>Обратно</Button>
+              </div>
+            </>
           )}
         </div>
       </div>
       <div className={listingStyles.pagination}>
-        {listings.length !== 0 ? (
+        {filteredListings.length !== 0 ? (
           <Pagination>
             {[...Array(totalPages)].map((_, index) => (
               <Pagination.Item
