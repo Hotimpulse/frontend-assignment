@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import SearchPanel from "@src/components/SearchPanel/SearchPanel";
 import AdModal from "@src/components/AdModal/AdModal";
 import { useNavigate } from "react-router-dom";
+import LikeComponent from "@src/components/LikeComponent/LikeComponent";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -113,7 +114,7 @@ export default function AllListings() {
                       Количество просмотров: {listing.views}
                     </Card.Text>
                     <Card.Text className={listingStyles.listing_desc}>
-                      Количество лайков: {listing.likes}
+                      <LikeComponent /> {listing.likes}
                     </Card.Text>
                   </Card.Body>
                   <Button onClick={() => handleOpenAd(listing.id)}>

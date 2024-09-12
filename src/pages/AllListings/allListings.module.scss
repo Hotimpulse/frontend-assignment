@@ -34,6 +34,10 @@
   }
 }
 
+.recommendations_top_select {
+  cursor: pointer;
+}
+
 .listing_container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -84,6 +88,12 @@
 
     border-radius: 0.2rem;
   }
+}
+
+.listing_desc {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .no_listings {
