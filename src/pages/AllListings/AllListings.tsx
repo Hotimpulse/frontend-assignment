@@ -56,7 +56,7 @@ export default function AllListings() {
   });
 
   if (isError) {
-    toast.error("There has been an error fetching files!");
+    toast.error("Ошибка загрузки товаров!");
     throw new Error("There has been an error fetching files!");
   }
 

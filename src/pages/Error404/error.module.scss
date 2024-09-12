@@ -1,0 +1,22 @@
+@import "./../../ui/variables.scss";
+
+.error-wrapper {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  margin-top: 20rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.heading {
+  font-family: "Roboto";
+  font-size: 3rem;
+  color: $accent-color;
+}
