@@ -1,6 +1,5 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
 import { FormEvent, useState } from "react";
 import searchStyles from "./searchPanel.module.scss";
 
@@ -19,7 +18,7 @@ export default function SearchPanel({ setSearchQuery }: SearchPanelProps) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Row>
+      <div className={searchStyles.wrapper}>
         <Form.Control
           type="text"
           placeholder="Поиск объявлений"
@@ -28,7 +27,7 @@ export default function SearchPanel({ setSearchQuery }: SearchPanelProps) {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Button type="submit">Найти</Button>
-      </Row>
+      </div>
     </Form>
   );
 }

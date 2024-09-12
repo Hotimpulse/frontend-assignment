@@ -7,6 +7,7 @@ interface IAdvertisments {
   error: string | null;
   currentPage: number;
   totalPages: number;
+  limit: number;
 }
 
 const initialState: IAdvertisments = {
@@ -15,6 +16,7 @@ const initialState: IAdvertisments = {
   error: null,
   currentPage: 1,
   totalPages: 1,
+  limit: 10,
 };
 
 const adSlice = createSlice({
@@ -39,10 +41,19 @@ const adSlice = createSlice({
     ) {
       state.status = action.payload;
     },
+    setAdLimit(state, action: PayloadAction<number>) {
+      state.limit = action.payload;
+    },
   },
 });
 
-export const { setAds, setCurrentPage, setTotalPages, setError, setStatus } =
-  adSlice.actions;
+export const {
+  setAds,
+  setCurrentPage,
+  setTotalPages,
+  setError,
+  setStatus,
+  setAdLimit,
+} = adSlice.actions;
 
 export default adSlice.reducer;

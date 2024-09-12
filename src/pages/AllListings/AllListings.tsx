@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   setAds,
   setCurrentPage,
+  setTotalPages,
 } from "@src/store/AllListings/allListingsSlice";
 import toast from "react-hot-toast";
 import SearchPanel from "@src/components/SearchPanel/SearchPanel";
@@ -33,17 +34,18 @@ export default function AllListings() {
   const fetchAds = async (page: number, limit: number) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/advertisements?_page=${page}&_limit=${limit}`
+        `http://localhost:8000/advertisements?_page=${page}&_per_page=${limit}`
       );
       if (!response.ok) {
         throw new Error("No listings available!");
       }
-      const data: IAdvertisment[] = await response.json();
-      dispatch(setAds(data));
+      const data = await response.json();
+      dispatch(setAds(data.data));
+      dispatch(setTotalPages(data.pages));
       return data;
     } catch (error) {
       console.error(error);
-      return [];
+      return { data: [], pages: 0 };
     }
   };
 
@@ -60,6 +62,7 @@ export default function AllListings() {
 
   const handlePageChange = (page: number) => {
     dispatch(setCurrentPage(page));
+    queryClient.invalidateQueries({ queryKey: ["ads"] });
   };
 
   const filteredListings = listings.filter((listing) =>

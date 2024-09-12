@@ -14,7 +14,7 @@ export default function Header() {
     <header className={header.wrapper}>
       <div className={header["wrapper-menu"]}>
         <NavLink to="/" className={header.header}>
-          Home
+          Lovito
         </NavLink>
         {menuOpen ? (
           <div
