@@ -11,7 +11,6 @@ import {
   setCurrentPage,
 } from "@src/store/AllListings/allListingsSlice";
 import toast from "react-hot-toast";
-import Skeleton from "react-loading-skeleton";
 import SearchPanel from "@src/components/SearchPanel/SearchPanel";
 import AdModal from "@src/components/AdModal/AdModal";
 import { useNavigate } from "react-router-dom";
@@ -48,10 +47,7 @@ export default function AllListings() {
     }
   };
 
-  const { isError, isLoading, isFetching, refetch } = useQuery<
-    IAdvertisment[],
-    Error
-  >({
+  const { isError, refetch } = useQuery<IAdvertisment[], Error>({
     queryKey: ["ads", currentPage, limit],
     queryFn: () => fetchAds(currentPage, limit),
     retry: 1,
@@ -76,9 +72,6 @@ export default function AllListings() {
 
   return (
     <div className={listingStyles.listings_wrapper}>
-      {(isLoading || isFetching) && (
-        <Skeleton count={3} width={600} height={450} />
-      )}
       <div className={listingStyles.listings_search_add_bar}>
         <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
@@ -130,17 +123,19 @@ export default function AllListings() {
         </div>
       </div>
       <div className={listingStyles.pagination}>
-        <Pagination>
-          {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item
-              key={index}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
+        {listings.length !== 0 ? (
+          <Pagination>
+            {[...Array(totalPages)].map((_, index) => (
+              <Pagination.Item
+                key={index}
+                active={index + 1 === currentPage}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
+        ) : null}
       </div>
     </div>
   );

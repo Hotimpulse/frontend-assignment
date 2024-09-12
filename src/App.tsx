@@ -3,7 +3,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.scss";
 import RouterWithRoutes from "./routing/RouterWithRoutes";
 import { Toaster } from "react-hot-toast";
-import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
@@ -20,10 +19,8 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <SkeletonTheme baseColor="#fef08a" highlightColor="#dadadb">
-            <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
-            <RouterWithRoutes />
-          </SkeletonTheme>
+          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+          <RouterWithRoutes />
           <Toaster
             position="bottom-right"
             gutter={12}
