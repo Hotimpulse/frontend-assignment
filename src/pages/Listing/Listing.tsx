@@ -2,14 +2,20 @@ import { useParams } from "react-router-dom";
 import listingStyles from "./listing.module.scss";
 import { AppDispatch, RootState } from "@src/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchListingInfo, setListing } from "@src/store/Listing/listingSlice";
+import {
+  fetchListingInfo,
+  setListing,
+  setStatus,
+} from "@src/store/Listing/listingSlice";
 import { useEffect, useState, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
+import CardSkeleton from "@src/components/CustomSkeleton/CardSkeleton/CardSkeleton";
+import Breadcrumbs from "@src/components/Breadcrumbs/Breadcrumbs";
 
 export default function Listing() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const { listing } = useSelector((store: RootState) => store.listing);
+  const { status, listing } = useSelector((store: RootState) => store.listing);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({
     imageUrl: listing.imageUrl || "",
@@ -47,7 +53,7 @@ export default function Listing() {
 
   const handleSaveChanges = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    dispatch(setStatus("loading"));
     fetch(`http://localhost:8000/advertisements/${id}`, {
       method: "PUT",
       headers: {
@@ -63,6 +69,7 @@ export default function Listing() {
         return response.json();
       })
       .then((updatedAd) => {
+        dispatch(setStatus("succeeded"));
         dispatch(setListing(updatedAd));
         setIsEditing(false);
       })
@@ -74,46 +81,50 @@ export default function Listing() {
   return (
     <div className={listingStyles.wrapper}>
       {isEditing ? (
-        <Form
-          onSubmit={handleSaveChanges}
-          className={listingStyles.edit_wrapper}
-        >
-          <Form.Group controlId="imageUrl">
-            <Form.Label>Фото</Form.Label>
-            <Form.Control
-              type="text"
-              value={editData.imageUrl}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="name">
-            <Form.Label>Название</Form.Label>
-            <Form.Control
-              type="text"
-              value={editData.name}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="price">
-            <Form.Label>Цена</Form.Label>
-            <Form.Control
-              type="number"
-              value={editData.price}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="description">
-            <Form.Label>Описание</Form.Label>
-            <Form.Control
-              as="textarea"
-              value={editData.description}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Button type="submit">Сохранить изменения</Button>
-        </Form>
+        <div className={listingStyles.edit_wrapper}>
+          <Form
+            onSubmit={handleSaveChanges}
+            className={listingStyles.form_wrapper}
+          >
+            <Form.Group controlId="imageUrl">
+              <Form.Label>Фото</Form.Label>
+              <Form.Control
+                type="text"
+                value={editData.imageUrl}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="name">
+              <Form.Label>Название</Form.Label>
+              <Form.Control
+                type="text"
+                value={editData.name}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="price">
+              <Form.Label>Цена</Form.Label>
+              <Form.Control
+                type="number"
+                value={editData.price}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="description">
+              <Form.Label>Описание</Form.Label>
+              <Form.Control
+                as="textarea"
+                value={editData.description}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Button type="submit">Сохранить изменения</Button>
+          </Form>
+        </div>
       ) : (
         <div className={listingStyles.card}>
+          <Breadcrumbs page={editData.name} />
+          {status === "loading" && <CardSkeleton />}
           <div className={listingStyles.top_part}>
             <div className={listingStyles.heading}>
               <h1 className={listingStyles.wrapper}>{listing.name}</h1>

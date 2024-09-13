@@ -39,6 +39,12 @@ const listingSlice = createSlice({
     setListing(state, action: PayloadAction<IAdvertisment>) {
       state.listing = action.payload;
     },
+    setIncreaseLike(state, action: PayloadAction<number>) {
+      state.listing.likes += action.payload;
+    },
+    setDecreaseLike(state, action: PayloadAction<number>) {
+      state.listing.likes -= action.payload;
+    },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
@@ -65,6 +71,12 @@ const listingSlice = createSlice({
   },
 });
 
-export const { setListing, setError, setStatus } = listingSlice.actions;
+export const {
+  setListing,
+  setError,
+  setStatus,
+  setIncreaseLike,
+  setDecreaseLike,
+} = listingSlice.actions;
 
 export default listingSlice.reducer;

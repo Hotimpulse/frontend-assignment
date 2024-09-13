@@ -1,6 +1,6 @@
 import ContentLoader from "react-content-loader";
 
-const CustomSkeleton = ({
+const ListingsSkeleton = ({
   width = 1180,
   heading = { width: 140, height: 24 },
   row = 2,
@@ -84,4 +84,4 @@ const CustomSkeleton = ({
   );
 };
 
-export default CustomSkeleton;
+export default ListingsSkeleton;

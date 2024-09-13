@@ -17,7 +17,7 @@ import SearchPanel from "@src/components/SearchPanel/SearchPanel";
 import AdModal from "@src/components/AdModal/AdModal";
 import { useNavigate } from "react-router-dom";
 import LikeComponent from "@src/components/LikeComponent/LikeComponent";
-import CustomSkeleton from "@src/components/CustomSkeleton/CustomSkeleton";
+import ListingsSkeleton from "@src/components/CustomSkeleton/ListingsSkeleton/ListingsSkeleton";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -93,7 +93,9 @@ export default function AllListings() {
         <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
       </div>
-      {status === "loading" && <CustomSkeleton />}
+      {status === "loading" && (
+        <ListingsSkeleton key={+listings.map((listing) => listing.id) || 0} />
+      )}
       <div className={listingStyles.recommendations}>
         {filteredListings.length > 0 && (
           <div className={listingStyles.recommendations_top}>
@@ -127,8 +129,8 @@ export default function AllListings() {
                     <Card.Text className={listingStyles.listing_desc}>
                       Количество просмотров: {listing.views}
                     </Card.Text>
-                    <Card.Text className={listingStyles.listing_desc}>
-                      <LikeComponent /> {listing.likes}
+                    <Card.Text className={listingStyles.listing_likes}>
+                      <LikeComponent likes={listing.likes} id={listing.id} />
                     </Card.Text>
                   </Card.Body>
                   <Button onClick={() => handleOpenAd(listing.id)}>
