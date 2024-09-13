@@ -77,7 +77,7 @@ export default function Orders() {
           <div className={orderStyles.orders} key={order.id}>
             <Card className={orderStyles.order_card_wrapper}>
               <Card.Body className={orderStyles.order_card_body}>
-                <Card.Text className={orderStyles.order_card_desc}>
+                <div className={orderStyles.order_card_desc}>
                   <p>Номер заказа: {order.id}</p>
                   <p>Статус: {getStatusLabel(order.status)}</p>
                   <p>Стоимость: {order.total} руб.</p>
@@ -86,7 +86,7 @@ export default function Orders() {
                   <Button onClick={() => handleShowProducts(order)}>
                     Показать заказы
                   </Button>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>
@@ -100,16 +100,23 @@ export default function Orders() {
           </Modal.Header>
           <Modal.Body>
             {selectedOrder.items.map((item: OrderItem) => (
-              <div key={item.id}>
-                <p>
-                  {item.name} - {item.count} шт.
+              <div key={item.id} className={orderStyles.cart_items_wrapper}>
+                <img
+                  src={item.imageUrl + `${item.name}`}
+                  className={orderStyles.img}
+                />
+                <div className={orderStyles.cart_item_desc}>
+                  <span>
+                    {item.name} - {item.count} шт.
+                  </span>
                   <Button
-                    variant="link"
+                    variant="secondary"
+                    size="sm"
                     onClick={() => handleProductClick(item.id)}
                   >
                     Посмотреть товар
                   </Button>
-                </p>
+                </div>
               </div>
             ))}
           </Modal.Body>
