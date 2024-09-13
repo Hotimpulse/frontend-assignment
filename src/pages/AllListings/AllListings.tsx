@@ -93,9 +93,7 @@ export default function AllListings() {
         <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
       </div>
-      {status === "loading" && (
-        <ListingsSkeleton key={+listings.map((listing) => listing.id) || 0} />
-      )}
+      {status === "loading" && <ListingsSkeleton />}
       <div className={listingStyles.recommendations}>
         {filteredListings.length > 0 && (
           <div className={listingStyles.recommendations_top}>
@@ -119,7 +117,7 @@ export default function AllListings() {
                   <Card.Img
                     className={listingStyles.listing_img}
                     variant="top"
-                    src={listing.imageUrl}
+                    src={listing.imageUrl + `${listing.name}`}
                   />
                   <Card.Body className={listingStyles.listing_body}>
                     <Card.Title>{listing.name}</Card.Title>

@@ -34,9 +34,12 @@ const ListingsSkeleton = ({
 
       const y3 = y2 + padding / 2 + height2;
 
+      const keyPrefix = `${i}-${j}`;
+
       list.push(
         <>
           <rect
+            key={`${keyPrefix}-1`}
             x={x}
             y={y1}
             rx={borderRadius}
@@ -44,8 +47,17 @@ const ListingsSkeleton = ({
             width={itemWidth}
             height={height1}
           />
-          <rect x={x} y={y2} rx={0} ry={0} width={itemWidth} height={height2} />
           <rect
+            key={`${keyPrefix}-2`}
+            x={x}
+            y={y2}
+            rx={0}
+            ry={0}
+            width={itemWidth}
+            height={height2}
+          />
+          <rect
+            key={`${keyPrefix}-3`}
             x={x}
             y={y3}
             rx={0}

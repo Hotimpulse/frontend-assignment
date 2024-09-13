@@ -8,7 +8,7 @@ import {
   setStatus,
 } from "@src/store/Listing/listingSlice";
 import { useEffect, useState, FormEvent } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Badge, Button, Form } from "react-bootstrap";
 import CardSkeleton from "@src/components/CustomSkeleton/CardSkeleton/CardSkeleton";
 import Breadcrumbs from "@src/components/Breadcrumbs/Breadcrumbs";
 
@@ -129,12 +129,14 @@ export default function Listing() {
             <div className={listingStyles.heading}>
               <h1 className={listingStyles.wrapper}>{listing.name}</h1>
             </div>
-            <div className={listingStyles.price}>{listing.price} руб.</div>
+            <div className={listingStyles.price}>
+              <Badge className={listingStyles.badge}>{listing.price} руб.</Badge>
+            </div>
           </div>
           <div className={listingStyles.lower_part}>
             <img
               className={listingStyles.listing_img}
-              src={`http://localhost:5173/` + listing.imageUrl}
+              src={listing.imageUrl + `${editData.name}`}
               alt={`image of the ${listing.name}`}
             />
             <p className={listingStyles.description}>{listing.description}</p>

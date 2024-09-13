@@ -64,6 +64,10 @@
   }
 }
 
+.badge {
+  background-color: $button-color !important;
+}
+
 .top_part {
   display: flex;
   justify-content: center;
