@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   setAds,
   setCurrentPage,
+  setStatus,
   setTotalPages,
 } from "@src/store/AllListings/allListingsSlice";
 import toast from "react-hot-toast";
@@ -16,11 +17,12 @@ import SearchPanel from "@src/components/SearchPanel/SearchPanel";
 import AdModal from "@src/components/AdModal/AdModal";
 import { useNavigate } from "react-router-dom";
 import LikeComponent from "@src/components/LikeComponent/LikeComponent";
+import CustomSkeleton from "@src/components/CustomSkeleton/CustomSkeleton";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
   const queryClient = useQueryClient();
-  const { listings, currentPage, totalPages } = useSelector(
+  const { listings, currentPage, totalPages, status } = useSelector(
     (state: RootState) => state.ads
   );
   const [limit, setLimit] = useState<number>(10);
@@ -28,12 +30,15 @@ export default function AllListings() {
   const navigate = useNavigate();
 
   const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setStatus("loading"));
     setLimit(Number(e.target.value));
+    dispatch(setStatus("succeeded"));
     queryClient.invalidateQueries({ queryKey: ["ads"] });
   };
 
   const fetchAds = async (page: number, limit: number) => {
     try {
+      dispatch(setStatus("loading"));
       const response = await fetch(
         `http://localhost:8000/advertisements?_page=${page}&_per_page=${limit}`
       );
@@ -43,8 +48,11 @@ export default function AllListings() {
       const data = await response.json();
       dispatch(setAds(data.data));
       dispatch(setTotalPages(data.pages));
+      dispatch(setStatus("succeeded"));
       return data;
     } catch (error) {
+      toast.error("Не удалось загрузить объявления! Проверьте подключение...");
+      dispatch(setStatus("failed"));
       console.error(error);
       return { data: [], pages: 0 };
     }
@@ -74,12 +82,18 @@ export default function AllListings() {
     navigate(`/listing/${id}`);
   }
 
+  function handleGoHome(): void {
+    setSearchQuery("");
+    navigate("/");
+  }
+
   return (
     <div className={listingStyles.listings_wrapper}>
       <div className={listingStyles.listings_search_add_bar}>
         <AdModal refetch={refetch} />
         <SearchPanel setSearchQuery={setSearchQuery} />
       </div>
+      {status === "loading" && <CustomSkeleton />}
       <div className={listingStyles.recommendations}>
         {filteredListings.length > 0 && (
           <div className={listingStyles.recommendations_top}>
@@ -127,7 +141,7 @@ export default function AllListings() {
             <>
               <div className={listingStyles.no_listings}>
                 <p>Таких объявлений нет 😒</p>
-                <Button onClick={() => navigate("/")}>Обратно</Button>
+                <Button onClick={handleGoHome}>Обратно</Button>
               </div>
             </>
           )}

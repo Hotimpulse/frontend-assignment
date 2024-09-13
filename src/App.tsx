@@ -1,10 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.scss";
+import store from "./store/store";
+import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RouterWithRoutes from "./routing/RouterWithRoutes";
 import { Toaster } from "react-hot-toast";
-import { Provider } from "react-redux";
-import store from "./store/store";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +18,6 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
           <RouterWithRoutes />
           <Toaster
             position="bottom-right"
