@@ -37,9 +37,8 @@ const ListingsSkeleton = ({
       const keyPrefix = `${i}-${j}`;
 
       list.push(
-        <>
+        <div key={keyPrefix}>
           <rect
-            key={`${keyPrefix}-1`}
             x={x}
             y={y1}
             rx={borderRadius}
@@ -48,7 +47,6 @@ const ListingsSkeleton = ({
             height={height1}
           />
           <rect
-            key={`${keyPrefix}-2`}
             x={x}
             y={y2}
             rx={0}
@@ -57,7 +55,6 @@ const ListingsSkeleton = ({
             height={height2}
           />
           <rect
-            key={`${keyPrefix}-3`}
             x={x}
             y={y3}
             rx={0}
@@ -65,7 +62,7 @@ const ListingsSkeleton = ({
             width={itemWidth * 0.6}
             height={height3}
           />
-        </>
+        </div>
       );
 
       if (i === row) {

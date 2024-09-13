@@ -18,6 +18,7 @@ import AdModal from "@src/components/AdModal/AdModal";
 import { useNavigate } from "react-router-dom";
 import LikeComponent from "@src/components/LikeComponent/LikeComponent";
 import ListingsSkeleton from "@src/components/CustomSkeleton/ListingsSkeleton/ListingsSkeleton";
+import CardSkeleton from "@src/components/CustomSkeleton/CardSkeleton/CardSkeleton";
 
 export default function AllListings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -114,11 +115,15 @@ export default function AllListings() {
             filteredListings.map((listing) => (
               <div className={listingStyles.listings} key={listing.id}>
                 <Card className={listingStyles.listing}>
-                  <Card.Img
-                    className={listingStyles.listing_img}
-                    variant="top"
-                    src={listing.imageUrl + `${listing.name}`}
-                  />
+                  {status === "loading" ? (
+                    <CardSkeleton />
+                  ) : (
+                    <Card.Img
+                      className={listingStyles.listing_img}
+                      variant="top"
+                      src={listing.imageUrl + `${listing.name}`}
+                    />
+                  )}
                   <Card.Body className={listingStyles.listing_body}>
                     <Card.Title>{listing.name}</Card.Title>
                     <Card.Text className={listingStyles.listing_desc}>
@@ -127,9 +132,9 @@ export default function AllListings() {
                     <Card.Text className={listingStyles.listing_desc}>
                       Количество просмотров: {listing.views}
                     </Card.Text>
-                    <Card.Text className={listingStyles.listing_likes}>
+                    <div className={listingStyles.listing_likes}>
                       <LikeComponent likes={listing.likes} id={listing.id} />
-                    </Card.Text>
+                    </div>
                   </Card.Body>
                   <Button onClick={() => handleOpenAd(listing.id)}>
                     Посмотреть
