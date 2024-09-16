@@ -11,6 +11,7 @@ import { useEffect, useState, FormEvent } from "react";
 import { Badge, Button, Form } from "react-bootstrap";
 import CardSkeleton from "@src/components/CustomSkeleton/CardSkeleton/CardSkeleton";
 import Breadcrumbs from "@src/components/Breadcrumbs/Breadcrumbs";
+import toast from "react-hot-toast";
 
 export default function Listing() {
   const { id } = useParams<{ id: string }>();
@@ -74,6 +75,7 @@ export default function Listing() {
         setIsEditing(false);
       })
       .catch((error) => {
+        toast.error('Не получилось обновить объявление...')
         console.error(error);
       });
   };

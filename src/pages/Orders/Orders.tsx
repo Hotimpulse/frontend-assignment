@@ -29,7 +29,7 @@ export default function Orders() {
         setOrders(data);
       } catch (error) {
         console.error(error);
-        toast.error("No orders available!");
+        toast.error("Не получилось загрузить объявления!");
       }
     };
 
