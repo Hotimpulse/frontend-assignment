@@ -80,4 +80,19 @@
 
 .img {
   max-width: 10rem;
+  border-radius: 0.2rem;
+}
+
+.cart_items_wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .cart_item_desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }

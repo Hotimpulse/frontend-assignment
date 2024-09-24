@@ -1,11 +1,14 @@
 import { IAdvertisment } from "@src/interfaces/IAdvertisment";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import adModalStyles from "./adModal.module.scss";
 import { IAdModal } from "@src/interfaces/IAdModal";
 
 export default function AdModal({ refetch }: IAdModal) {
   const [show, setShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
   const [adData, setAdData] = useState({
@@ -15,8 +18,24 @@ export default function AdModal({ refetch }: IAdModal) {
     adImageUrl: "",
   });
 
+  useEffect(() => {
+    const isValid =
+      adData.adName.trim() !== "" &&
+      adData.adPrice > 0 &&
+      adData.adDescription.trim() !== "" &&
+      adData.adImageUrl.trim() !== "";
+    setIsFormValid(isValid);
+  }, [adData]);
+
   const handleCreateAd = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    setValidated(true);
+
     const newAd: IAdvertisment = {
       id: `${Date.now()}`,
       name: adData.adName,
@@ -27,6 +46,7 @@ export default function AdModal({ refetch }: IAdModal) {
       likes: 300,
       imageUrl: adData.adImageUrl,
     };
+
     fetch("http://localhost:8000/advertisements", {
       method: "POST",
       headers: {
@@ -40,7 +60,7 @@ export default function AdModal({ refetch }: IAdModal) {
         adName: "",
         adPrice: 0,
         adDescription: "",
-        adImageUrl: "",
+        adImageUrl: "https://dummyjson.com/image/300x300/484283/ffffff?text=",
       });
     });
   };
@@ -62,6 +82,8 @@ export default function AdModal({ refetch }: IAdModal) {
         </Modal.Header>
         <Modal.Body>
           <Form
+            noValidate
+            validated={validated}
             onSubmit={(e) => handleCreateAd(e)}
             className={adModalStyles.modal_body}
           >
@@ -70,9 +92,15 @@ export default function AdModal({ refetch }: IAdModal) {
               <Form.Control
                 type="text"
                 placeholder="Введите URL фото"
-                value={adData.adImageUrl}
+                value={
+                  (adData.adImageUrl = `https://dummyjson.com/image/300x300/484283/ffffff?text=`)
+                }
                 onChange={handleInputChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Впишите адрес фото!
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="adName">
               <Form.Label>Название</Form.Label>
@@ -81,7 +109,11 @@ export default function AdModal({ refetch }: IAdModal) {
                 placeholder="Введите название"
                 value={adData.adName}
                 onChange={handleInputChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Впишите название!
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="adDescription">
               <Form.Label>Описание</Form.Label>
@@ -90,18 +122,30 @@ export default function AdModal({ refetch }: IAdModal) {
                 placeholder="Введите описание"
                 value={adData.adDescription}
                 onChange={handleInputChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Впишите описание!
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="adPrice">
               <Form.Label>Стоимость</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Введите цену"
+                placeholder="Введите cтоимость"
                 value={adData.adPrice}
                 onChange={handleInputChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Впишите стоимость!
+              </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit" disabled={adData.adPrice < 0} className={adModalStyles.modal_btn}>
+            <Button
+              type="submit"
+              disabled={!isFormValid}
+              className={adModalStyles.modal_btn}
+            >
               Создать
             </Button>
           </Form>

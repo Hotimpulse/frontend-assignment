@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - json-server
+
+  json-server:
+    image: vimagick/json-server
+    command: -h 0.0.0.0 -p 8000 -w /data/db.json
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db.json:/data/db.json
+    restart: always
